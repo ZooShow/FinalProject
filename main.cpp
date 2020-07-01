@@ -146,30 +146,6 @@ public:
         setShape();
     }
 
-//    virtual void setShape() {
-//        ifstream in;
-//        in.open(inputName);
-//        if (in.is_open()) {
-//            string str;
-//            getline(in, str);
-//            int space = str.find(" ");
-//            string f = str.substr(0, space);
-//            str.erase(0, space);
-//            column = atoi(f.c_str());
-//            row = atoi(str.c_str());
-//            shape = new char *[row];
-//            for (int i = 0; i < row; ++i) {
-//                shape[i] = new char[column];
-//            }
-//            for (int i = 0; i < row; ++i) {
-//                getline(in, str);
-//                for (int j = 0; j < column; j++) {
-//                    shape[i][j] = str[j];
-//                }
-//            }
-//        }
-//    }
-
     void getRoof() const {
         for (int i = 0; i < row; ++i) {
             for (int j = 0; j < column; ++j) {
@@ -200,7 +176,7 @@ public:
         return fedor;
     }
 
-    House *buildHouse(int flatAmount, string inputRoof, string inputFlat){
+    House *buildHouse(int flatAmount, string inputRoof, string inputFlat) {
         House *house = new House;
         house->setFlatAMount(flatAmount);
         house->setInputName(inputRoof);
@@ -208,7 +184,7 @@ public:
         return house;
     }
 
-    Neighbour *buildNeibhour(string inputName, bool isKind){
+    Neighbour *buildNeibhour(string inputName, bool isKind) {
         Neighbour *people = new Neighbour;
         people->setInputName(inputName);
         people->setShape();
@@ -216,7 +192,7 @@ public:
         return people;
     };
 
-    GeometryTeacher *buildGeometryTeacher(string inputName, bool isKind){
+    GeometryTeacher *buildGeometryTeacher(string inputName, bool isKind) {
         GeometryTeacher *people = new GeometryTeacher;
         people->setInputName(inputName);
         people->setIsKind(isKind);
@@ -224,7 +200,7 @@ public:
         return people;
     };
 
-    AlghorithmsTeacher *buildAlghoritmTeacher(string inputName, bool isKind){
+    AlghorithmsTeacher *buildAlghoritmTeacher(string inputName, bool isKind) {
         AlghorithmsTeacher *people = new AlghorithmsTeacher;
         people->setInputName(inputName);
         people->setShape();
@@ -239,23 +215,14 @@ class Storyteller {
     int secondAnswer;
     int thirdAnswer;
     int fourthAnswer;
-    Fedor *fedor;
-    House *house;
-    Neighbour *neighbour;
-    GeometryTeacher *geometryTeacher;
-    AlghorithmsTeacher *alghoritmTeacher;
 public:
-    void startTheStory (string &inputFedor) {
+    void startTheStory() {
         printDelay("Эта история повествует не о мальчике, а о муже");
         printDelay("И имя ему - Федор");
         printDelay("А вот, собственно, и он");
-        ShapeBuilder builder;
-        fedor = builder.buildFedor(inputFedor);
-        fedor->getShape();
-        fedor->sayFirst();
     }
 
-    void firstChapter(string &inputRoof, string &inputFlat) {
+    int firstChapter() {
         printDelay("Как думаете, сколько этажей у Федора в доме?");
         cin >> firstAnswer;
         while (firstAnswer < 2) {
@@ -264,18 +231,14 @@ public:
             printDelay("Давайте вы подумаете еще раз");
             cin >> firstAnswer;
         }
-        ShapeBuilder builder;
-        house = builder.buildHouse(firstAnswer, inputRoof, inputFlat);
         printDelay("Это дом Федора, в котором он прожил всю свою жизнь");
-        house->getShape();
+        return firstAnswer;
     }
 
-    void secondChapter() {
+    void secondChapter(string &inputName, bool &isKind) {
         printDelay("У Федора есть сосед сверху.");
         printDelay("Как думаете, насколько повезло Федору с соседом сверху?");
         cin >> secondAnswer;
-        string inputName;
-        bool isKind;
         if (secondAnswer > 5) {
             isKind = true;
             inputName = "../src/neighbourKind.txt";
@@ -283,22 +246,15 @@ public:
             isKind = false;
             inputName = "../src/neighbourAngry.txt";
         }
-        ShapeBuilder builder;
-        neighbour = builder.buildNeibhour(inputName, isKind);
-        neighbour->getShape();
-        neighbour->saySomething();
-        fedor->getShape();
-        fedor->saySecond();
+
     }
 
-    void thirdChapter() {
+    void thirdChapter(string &inputName, bool &isKind) {
         printDelay(
                 "Но нашему Федору не время заострять внимание на том, что делает его сосед сверху, у него самый сложный для каждого студента период - зачетная неделя");
         printDelay("И первым по списку идет геометрия");
         printDelay("Как думаете, насколько Федору повезло с преподователем геометрии?");
         cin >> thirdAnswer;
-        string inputName;
-        bool isKind;
         if (thirdAnswer > 5) {
             isKind = true;
             inputName = "../src/geometryTeacherKind.txt";
@@ -306,22 +262,15 @@ public:
             isKind = false;
             inputName = "../src/geometryTeacherAngry.txt";
         }
-        ShapeBuilder builder;
-        geometryTeacher = builder.buildGeometryTeacher(inputName, isKind);
-        geometryTeacher->getShape();
-        geometryTeacher->saySomething();
-        fedor->getShape();
-        fedor->sayThird();
     }
 
-    void fourthChapter() {
+
+    void fourthChapter(string &inputName, bool &isKind) {
         printDelay("Не смотря ни на что, Федор идет к своей мечте о получении всех зачетов.");
         printDelay("После того как он идеально сдал геометрию, его ждала последняя преграда на пути к мечте");
         printDelay("И имя ей СТРУКТУРЫ И АЛГОРИТМЫ КОМПЬЮТЕРНОЙ ОБРАБОТКИ ДАННЫХ");
         printDelay("Как думаете, насколько Федору повезло с преподователем по СИФКОД?");
         cin >> fourthAnswer;
-        string inputName;
-        bool isKind;
         if (fourthAnswer > 5) {
             isKind = true;
             inputName = "../src/alghoritmTeacherKind.txt";
@@ -329,43 +278,71 @@ public:
             isKind = false;
             inputName = "../src/alghoritmTeacherAngry.txt";
         }
-        ShapeBuilder builder;
-        alghoritmTeacher = builder.buildAlghoritmTeacher(inputName, isKind);
-        alghoritmTeacher->getShape();
-        alghoritmTeacher->saySomething();
-
-        fedor->getShape();
-        fedor->sayFourth();
     }
 
     void lastChapter() {
         printDelay("Но несмотря ни на что, Федя справился со всеми трудностями и стал королем зачетов!");
-        fedor->getShape();
-        fedor->sayLast();
     }
-
 };
 
-
+void sayShape(OtherPeople *shape){
+    shape->saySomething();
+}
 
 int main() {
     string inputFedor = "../src/me.txt";
     string inputRoof = "../src/roof.txt";
     string inputFlat = "../src/flat.txt";
+    string inputName;
+    bool isKind;
+
+
+    ShapeBuilder shapeBuilder;
+    Fedor *fedor;
+    House *house;
+    Neighbour *neighbour;
+    GeometryTeacher *geom;
+    AlghorithmsTeacher *alghoritm;
+
+    fedor = shapeBuilder.buildFedor(inputFedor);
 
     Storyteller storyteller;
 
-    storyteller.startTheStory(inputFedor);
+    storyteller.startTheStory();
+    fedor->getShape();
+    fedor->sayFirst();
 
-    storyteller.firstChapter(inputRoof, inputFlat);
+    house = shapeBuilder.buildHouse(storyteller.firstChapter(), inputRoof, inputFlat);
+    house->getShape();
 
-    storyteller.secondChapter();
+    storyteller.secondChapter(inputName, isKind);
+    neighbour = shapeBuilder.buildNeibhour(inputName, isKind);
+    neighbour->getShape();
+    sayShape(neighbour);
+    fedor->getShape();
+    fedor->saySecond();
 
-    storyteller.thirdChapter();
 
-    storyteller.fourthChapter();
+    storyteller.thirdChapter(inputName, isKind);
+    geom = shapeBuilder.buildGeometryTeacher(inputName, isKind);
+    geom->getShape();
+    sayShape(geom);
+    fedor->getShape();
+    fedor->sayThird();
+
+
+    storyteller.fourthChapter(inputName, isKind);
+    alghoritm = shapeBuilder.buildAlghoritmTeacher(inputName, isKind);
+    alghoritm->getShape();
+    sayShape(alghoritm);
+    fedor->getShape();
+    fedor->sayFourth();
+
 
     storyteller.lastChapter();
+    fedor->getShape();
+    fedor->sayLast();
+
 
     return 0;
 }
